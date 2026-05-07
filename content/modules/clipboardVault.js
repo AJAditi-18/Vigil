@@ -394,6 +394,11 @@
       .opts label{display:flex;align-items:center;gap:8px;font-size:11px;color:#666;}
       .opts input[type=range]{flex:1;accent-color:#7b8cde;}
       .bio-note{font-size:10px;color:#555;text-align:center;margin-top:5px;}
+      .ok-row{display:flex;gap:6px;margin-top:10px;}
+      .ok-row .btn{flex:1;padding:9px;font-size:12px;}
+      .btn-ok{border-color:#7b8cde;color:#7b8cde;}
+      .btn-ok:hover{background:rgba(123,140,222,.1);}
+      .btn-ok:disabled{opacity:.3;cursor:default;pointer-events:none;}
     </style>
     <div class="panel">
       <div class="hdr"><span class="hdr-title">Setup Vault Lock</span>
@@ -407,6 +412,9 @@
         <div class="pin-row" id="pin-dots"></div>
         <div class="numpad"  id="numpad"></div>
         <div class="err-msg" id="err-msg"></div>
+        <div class="ok-row" style="margin-top:10px;">
+          <button class="btn btn-ok" id="pin-ok-btn" disabled>OK ✓</button>
+        </div>
         <div class="opts">
           <label>Auto-lock after
             <input type="range" id="lr" min="0" max="4" step="1" value="2">
@@ -451,11 +459,17 @@
     });
 
     let first='',entered='',confirming=false;
+    const pinOkBtn=sh.getElementById('pin-ok-btn');
     function dots(p,err=false){
       sh.getElementById('pin-dots').innerHTML=
         Array.from({length:Math.max(p.length,4)},(_,i)=>
           `<div class="pin-dot ${i<p.length?(err?'error':'filled'):''}"></div>`).join('');
+      const ready = p.length >= 4;
+      pinOkBtn.disabled = !ready;
+      pinOkBtn.style.pointerEvents = ready ? 'auto' : 'none';
+      pinOkBtn.style.opacity = ready ? '1' : '0.3';
     }
+    pinOkBtn.addEventListener('click', () => { if (entered.length >= 4) commit(); });
     const np=sh.getElementById('numpad');
     np.innerHTML=['1','2','3','4','5','6','7','8','9','','0','x'].map(d=>
       `<button class="numpad-btn${d==='x'?' del':''}" data-d="${d}">${d==='x'?'⌫':d}</button>`).join('');
@@ -570,7 +584,10 @@
       sh.getElementById('pin-dots').innerHTML=
         Array.from({length:Math.max(p.length,4)},(_,i)=>
           `<div class="pin-dot ${i<p.length?(err?'error':'filled'):''}"></div>`).join('');
-      okBtn.disabled = p.length < 4;
+      const ready = p.length >= 4;
+      okBtn.disabled = !ready;
+      okBtn.style.pointerEvents = ready ? 'auto' : 'none';
+      okBtn.style.opacity = ready ? '1' : '0.3';
     }
     const np=sh.getElementById('numpad');
     np.innerHTML=['1','2','3','4','5','6','7','8','9','','0','⌫'].map((d,idx)=>
