@@ -1,0 +1,134 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 340px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 0 0 4px 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+h1 { font-size: 18px; font-weight: 700; color: #7b8cde; letter-spacing: 2px; }
+.version { font-size: 11px; color: #555; }
+
+.section { padding: 11px 16px; border-bottom: 1px solid #2a2a4a; }
+
+h2 {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #7b8cde; margin-bottom: 9px;
+}
+
+.stats-row { display: flex; gap: 8px; }
+
+.stat-box {
+  flex: 1; background: #16213e; border-radius: 8px;
+  padding: 10px 8px; text-align: center; border: 1px solid #2a2a4a;
+}
+
+.stat-number { display: block; font-size: 22px; font-weight: 700; color: #7b8cde; }
+.stat-label  { display: block; font-size: 10px; color: #888; margin-top: 2px; }
+
+#tab-list {
+  list-style: none; display: flex; flex-direction: column; gap: 5px;
+  max-height: 150px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: #2a2a4a transparent;
+}
+
+#tab-list li {
+  background: #16213e; border-radius: 6px; padding: 7px 10px;
+  border: 1px solid #2a2a4a; display: flex; flex-direction: column; gap: 2px;
+}
+
+.tab-title { font-size: 12px; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tab-age   { font-size: 10px; color: #e05c5c; }
+
+.empty {
+  color: #555; font-style: italic; text-align: center;
+  padding: 12px !important; background: transparent !important; border: none !important;
+}
+
+.sub-status { font-size: 11px; color: #555; margin-bottom: 8px; min-height: 15px; line-height: 1.5; }
+
+button {
+  width: 100%; padding: 8px; background: transparent;
+  border: 1px solid #7b8cde; border-radius: 6px; color: #7b8cde;
+  font-size: 12px; cursor: pointer; transition: background 0.18s; font-family: inherit;
+}
+button:hover { background: #16213e; }
+button:disabled { opacity: 0.4; cursor: default; }
+button:disabled:hover { background: transparent; }
+
+.btn-group { display: flex; gap: 7px; margin-bottom: 8px; }
+.btn-group button { flex: 1; }
+
+.btn-secondary { border-color: #2a2a4a; color: #555; font-size: 11px; }
+.btn-secondary:hover { border-color: #7b8cde; color: #7b8cde; }
+
+/* ── URL checker ─────────────────────────────────────────────────── */
+.url-check-row {
+  display: flex; gap: 6px; margin-top: 8px;
+}
+.url-check-row input {
+  flex: 1; background: #16213e; border: 1px solid #2a2a4a;
+  border-radius: 6px; padding: 6px 9px; color: #e0e0e0;
+  font-size: 11px; outline: none; font-family: inherit;
+  transition: border-color 0.15s;
+}
+.url-check-row input:focus { border-color: #7b8cde; }
+.url-check-row input::placeholder { color: #333; }
+.url-check-row button {
+  width: auto; padding: 6px 12px; font-size: 11px; flex-shrink: 0;
+}
+
+.url-result {
+  margin-top: 8px; padding: 8px 10px;
+  background: #16213e; border-radius: 6px; border: 1px solid #2a2a4a;
+  font-size: 11px; line-height: 1.6;
+}
+.url-result .res-score {
+  font-size: 18px; font-weight: 800; display: inline-block; margin-right: 6px;
+  vertical-align: middle;
+}
+.url-result .res-label {
+  font-size: 12px; font-weight: 700; vertical-align: middle;
+}
+.url-result .res-params {
+  margin-top: 6px; display: flex; flex-direction: column; gap: 3px;
+}
+.url-result .res-param {
+  font-size: 10px; color: #555; display: flex; align-items: flex-start; gap: 5px;
+}
+.url-result .res-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px;
+}
+
+/* ── Severity pills ──────────────────────────────────────────────── */
+.tm-pill {
+  display: inline-block; padding: 1px 6px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; margin-left: 4px;
+}
+.tm-pill-none     { background: rgba(100,100,100,0.15); color: #666; }
+.tm-pill-minor    { background: rgba(245,197,66,0.15);  color: #f5c542; }
+.tm-pill-moderate { background: rgba(255,152,0,0.15);   color: #ff9800; }
+.tm-pill-major    { background: rgba(244,67,54,0.15);   color: #f44336; }
+/* ── Privacy Score ───────────────────────────────────────────────── */
+.ps-section { border-left: 3px solid #7b8cde; }
+.ps-score-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 4px;
+}
+.ps-number {
+  font-size: 36px; font-weight: 800; line-height: 1;
+  color: #7b8cde; min-width: 56px;
+}
+.ps-meta { display: flex; flex-direction: column; gap: 2px; }
+.ps-label { font-size: 13px; font-weight: 700; color: #7b8cde; }
+.ps-trend { font-size: 11px; color: #666; }

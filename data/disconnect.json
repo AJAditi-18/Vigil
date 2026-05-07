@@ -1,0 +1,98 @@
+{
+  "version": "2023121301",
+  "license": "https://www.mozilla.org/MPL/",
+  "categories": {
+    "Advertising": [
+      { "Google Ads": { "http://googleads.g.doubleclick.net/": ["doubleclick.net", "googlesyndication.com", "googleadservices.com", "adsystem.com", "google-analytics.com", "adservice.google.com"] } },
+      { "Facebook Ads": { "https://www.facebook.com/": ["connect.facebook.net", "connect.facebook.com"] } },
+      { "Amazon Ads": { "https://www.amazon.com/": ["amazon-adsystem.com", "assoc-amazon.com", "media-amazon.com"] } },
+      { "AppNexus": { "https://www.appnexus.com/": ["adnxs.com", "appnexus.com"] } },
+      { "Taboola": { "https://www.taboola.com/": ["taboola.com", "taboolasyndication.com"] } },
+      { "Outbrain": { "https://www.outbrain.com/": ["outbrain.com", "outbrainimg.com"] } },
+      { "Criteo": { "https://www.criteo.com/": ["criteo.com", "criteo.net", "hlserve.com"] } },
+      { "OpenX": { "https://www.openx.com/": ["openx.com", "openx.net"] } },
+      { "Rubicon": { "https://rubiconproject.com/": ["rubiconproject.com", "rubiconproject.net"] } },
+      { "The Trade Desk": { "https://www.thetradedesk.com/": ["adsrvr.org", "thetradedesk.com"] } },
+      { "Pubmatic": { "https://pubmatic.com/": ["pubmatic.com", "pubmaticid.com"] } },
+      { "Index Exchange": { "https://www.indexexchange.com/": ["casalemedia.com", "indexexchange.com"] } },
+      { "Sonobi": { "https://sonobi.com/": ["sonobi.com"] } },
+      { "Yieldmo": { "https://yieldmo.com/": ["yieldmo.com"] } },
+      { "TripleLift": { "https://triplelift.com/": ["3lift.com", "triplelift.com"] } },
+      { "Undertone": { "https://www.undertone.com/": ["undertone.com"] } },
+      { "BrightRoll": { "https://brightroll.com/": ["brightroll.com"] } },
+      { "Adform": { "https://site.adform.com/": ["adform.net", "adform.com"] } },
+      { "Smart AdServer": { "https://smartadserver.com/": ["smartadserver.com"] } },
+      { "Zeta Global": { "https://zetaglobal.com/": ["zetaglobal.com", "sizmek.com"] } },
+      { "Quantcast": { "https://www.quantcast.com/": ["quantcount.com"] } },
+      { "LiveRamp": { "https://liveramp.com/": ["liveramp.com", "rlcdn.com"] } },
+      { "Sharethrough": { "https://sharethrough.com/": ["sharethrough.com"] } }
+    ],
+    "Analytics": [
+      { "Google Analytics": { "https://analytics.google.com/": ["google-analytics.com", "googletagmanager.com", "googletagservices.com"] } },
+      { "Adobe Analytics": { "https://www.adobe.com/": ["omtrdc.net", "2o7.net", "adobedtm.com", "demdex.net"] } },
+      { "Mixpanel": { "https://mixpanel.com/": ["mixpanel.com", "cdn.mxpnl.com", "api.mixpanel.com"] } },
+      { "Amplitude": { "https://amplitude.com/": ["amplitude.com", "api2.amplitude.com"] } },
+      { "Segment": { "https://segment.com/": ["segment.com", "cdn.segment.com", "api.segment.io", "segment.io"] } },
+      { "Hotjar": { "https://www.hotjar.com/": ["hotjar.com", "static.hotjar.com", "vars.hotjar.com", "vc.hotjar.io"] } },
+      { "FullStory": { "https://www.fullstory.com/": ["fullstory.com", "edge.fullstory.com", "rs.fullstory.com"] } },
+      { "Heap": { "https://heap.io/": ["heapanalytics.com", "cdn.heapanalytics.com"] } },
+      { "Chartbeat": { "https://chartbeat.com/": ["chartbeat.com", "chartbeat.net", "mab.chartbeat.com"] } },
+      { "comScore": { "https://www.comscore.com/": ["scorecardresearch.com", "imrworldwide.com", "comscore.com"] } },
+      { "Nielsen": { "https://www.nielsen.com/": ["exelate.com", "nexac.com"] } },
+      { "New Relic": { "https://newrelic.com/": ["newrelic.com", "newrelicgbs.com", "nr-data.net", "bam.nr-data.net", "js-agent.newrelic.com"] } },
+      { "Datadog": { "https://www.datadoghq.com/": ["datadoghq.com", "rum.browser-intake-datadoghq.com"] } },
+      { "Mouseflow": { "https://mouseflow.com/": ["mouseflow.com", "cdn.mouseflow.com"] } },
+      { "Lucky Orange": { "https://www.luckyorange.com/": ["luckyorange.com", "lo.io"] } },
+      { "CrazyEgg": { "https://www.crazyegg.com/": ["crazyegg.com", "script.crazyegg.com"] } },
+      { "Optimizely": { "https://www.optimizely.com/": ["optimizely.com", "cdn.optimizely.com"] } },
+      { "VWO": { "https://vwo.com/": ["wingify.com", "vwo.com", "visualwebsiteoptimizer.com"] } },
+      { "Qualtrics": { "https://www.qualtrics.com/": ["qualtrics.com"] } },
+      { "Sentry": { "https://sentry.io/": ["sentry.io", "browser.sentry-cdn.com", "ingest.sentry.io"] } }
+    ],
+    "Social": [
+      { "Twitter": { "https://twitter.com/": ["twitter.com", "t.co", "twimg.com", "ads-twitter.com"] } },
+      { "Facebook": { "https://facebook.com/": ["facebook.com", "facebook.net", "fbcdn.net", "fbsbx.com", "atdmt.com"] } },
+      { "LinkedIn": { "https://linkedin.com/": ["linkedin.com", "licdn.com", "snap.licdn.com"] } },
+      { "Pinterest": { "https://pinterest.com/": ["pinterest.com", "pinimg.com", "ct.pinterest.com"] } },
+      { "AddThis": { "https://www.addthis.com/": ["addthis.com", "addthisedge.com"] } },
+      { "ShareThis": { "https://sharethis.com/": ["sharethis.com"] } },
+      { "Reddit": { "https://www.reddit.com/": ["redd.it", "reddit.com", "redditmedia.com", "redd.it"] } },
+      { "Tumblr": { "https://www.tumblr.com/": ["tumblr.com", "jnt1.com"] } },
+      { "Disqus": { "https://disqus.com/": ["disqus.com", "disquscdn.com"] } }
+    ],
+    "Fingerprinting": [
+      { "MaxMind": { "https://www.maxmind.com/": ["maxmind.com"] } },
+      { "ThreatMetrix": { "https://www.threatmetrix.com/": ["threatmetrix.com"] } },
+      { "iovation": { "https://www.iovation.com/": ["iovation.com", "sniffdr.com"] } },
+      { "Augur": { "https://augur.io/": ["augur.io"] } },
+      { "Inauth": { "https://www.inauth.com/": ["inauth.com"] } }
+    ],
+    "Cryptomining": [
+      { "Coinhive": { "https://coinhive.com/": ["coinhive.com", "coin-hive.com", "cnhv.co"] } },
+      { "CryptoLoot": { "https://crypto-loot.com/": ["crypto-loot.com", "crypto-loot.org"] } },
+      { "JSECoin": { "https://jsecoin.com/": ["jsecoin.com", "load.jsecoin.com"] } },
+      { "Minero": { "https://minero.cc/": ["minero.cc"] } },
+      { "Coinimp": { "https://www.coinimp.com/": ["coinimp.com", "www.coinimp.com"] } }
+    ],
+    "Content": [
+      { "Cloudflare": { "https://www.cloudflare.com/": ["cloudflare.com", "cloudflareinsights.com", "static.cloudflareinsights.com"] } },
+      { "Fastly": { "https://www.fastly.com/": ["fastly.net", "fastly.com"] } },
+      { "Akamai": { "https://www.akamai.com/": ["akamai.com", "akamai.net", "akamaitechnologies.com", "akamaized.net", "edgekey.net", "edgesuite.net"] } },
+      { "Amazon CloudFront": { "https://aws.amazon.com/": ["cloudfront.net"] } },
+      { "MaxCDN": { "https://www.maxcdn.com/": ["maxcdn.com", "stackpathcdn.com"] } },
+      { "jsDelivr": { "https://www.jsdelivr.com/": ["jsdelivr.net"] } },
+      { "cdnjs": { "https://cdnjs.com/": ["cdnjs.cloudflare.com"] } }
+    ],
+    "Disconnect": [
+      { "Scorecard Research": { "https://www.scorecardresearch.com/": ["scorecardresearch.com", "imrworldwide.com"] } },
+      { "DoubleVerify": { "https://www.doubleverify.com/": ["doubleverify.com", "dvtps.com"] } },
+      { "Integral Ad Science": { "https://integralads.com/": ["adsafeprotected.com", "iasds01.com"] } },
+      { "Moat": { "https://moat.com/": ["moat.com", "moatads.com"] } },
+      { "Conversant": { "https://conversantmedia.com/": ["conversantmedia.com", "fastclick.com", "dotomi.com", "mediaplex.com"] } },
+      { "Lotame": { "https://www.lotame.com/": ["crwdcntrl.net", "lotame.com"] } },
+      { "Bluekai": { "https://www.bluekai.com/": ["bluekai.com", "bkrtx.com"] } },
+      { "Krux": { "https://www.salesforce.com/": ["krxd.net"] } },
+      { "Neustar": { "https://www.neustar.biz/": ["foresee.com"] } }
+    ]
+  }
+}

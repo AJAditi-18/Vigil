@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "Vigil",
+  "version": "1.6.0",
+  "description": "Browser privacy and awareness suite",
+  "permissions": [
+    "tabs",
+    "storage",
+    "clipboardRead",
+    "webRequest",
+    "webNavigation",
+    "alarms",
+    "scripting",
+    "declarativeNetRequest",
+    "notifications"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon1.png",
+      "48": "icons/icon2.png",
+      "128": "icons/icon3.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "lib/dexie.min.js",
+        "lib/diff.min.js",
+        "content/vigilDB.js",
+        "content/trackerList.js",
+        "content/content.js",
+        "content/modules/timeMachine.js",
+        "content/modules/networkMap.js",
+        "content/modules/clipboardVault.js",
+        "content/modules/formShadow.js",
+        "content/modules/linkScorer.js",
+        "content/modules/tabDebt.js",
+        "content/modules/privacyScore.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options/options.html",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "options/options.html",
+        "lib/dexie.min.js",
+        "lib/diff.min.js",
+        "data/disconnect.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

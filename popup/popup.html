@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <div class="header">
+    <h1>Vigil</h1>
+    <span class="version">v1.6</span>
+  </div>
+
+  <!-- ── Privacy Score ─────────────────────────────────────────────── -->
+  <div class="section ps-section" id="ps-section">
+    <h2>Privacy Score</h2>
+    <div class="ps-score-row">
+      <span class="ps-number" id="ps-score">—</span>
+      <div class="ps-meta">
+        <span class="ps-label" id="ps-label">Loading…</span>
+        <span class="ps-trend" id="ps-trend"></span>
+      </div>
+    </div>
+    <div id="ps-summary" class="sub-status" style="margin-top:4px;"></div>
+    <button id="ps-btn">Show full score on page</button>
+  </div>
+
+  <!-- ── Tab Debt ──────────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Tab Debt</h2>
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-number" id="total-tabs">—</span>
+        <span class="stat-label">Open tabs</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="unread-tabs">—</span>
+        <span class="stat-label">Never visited</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="old-tabs">—</span>
+        <span class="stat-label">Older than 1 day</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Oldest unread tabs</h2>
+    <ul id="tab-list">
+      <li class="empty">Loading…</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <button id="cleanup-btn">Close unread tabs older than 1 day</button>
+  </div>
+
+  <!-- ── Network ───────────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Network</h2>
+    <div id="network-summary" class="sub-status">Loading…</div>
+    <button id="network-btn">Show network report on page</button>
+  </div>
+
+  <!-- ── Clipboard Vault ───────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Clipboard Vault</h2>
+    <div id="cv-summary" class="sub-status">Loading…</div>
+    <button id="cv-btn">Show vault on page</button>
+  </div>
+
+  <!-- ── Time Machine ──────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Time Machine</h2>
+    <div id="tm-summary" class="sub-status">Loading…</div>
+    <div class="btn-group">
+      <button id="tm-show-btn">Show changes on page</button>
+      <button id="tm-history-btn" class="btn-secondary">Full history ↗</button>
+    </div>
+  </div>
+
+  <!-- ── Link Scorer ───────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Link Scorer</h2>
+    <div id="ls-summary" class="sub-status">Loading…</div>
+    <div class="btn-group">
+      <button id="ls-rescan-btn">Rescan page links</button>
+      <button id="ls-report-btn" class="btn-secondary">View report ↗</button>
+    </div>
+    <div class="url-check-row">
+      <input type="text" id="ls-url-input" placeholder="Paste any URL to check…" autocomplete="off" spellcheck="false" />
+      <button id="ls-check-btn">Check</button>
+    </div>
+    <div id="ls-url-result" class="url-result" style="display:none;"></div>
+  </div>
+
+  <!-- ── Form Shadow ───────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Form Shadow</h2>
+    <div id="fs-summary" class="sub-status">Loading…</div>
+    <button id="fs-history-btn" class="btn-secondary">View form receipts ↗</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

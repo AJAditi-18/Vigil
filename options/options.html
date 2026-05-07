@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Vigil — History & Settings</title>
+
+  <!-- Load order is critical: Dexie FIRST, then vigilDB which calls new Dexie() -->
+  <script src="../lib/dexie.min.js"></script>
+  <script src="../lib/diff.min.js"></script>
+  <script src="../content/vigilDB.js"></script>
+
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: #0a0a14;
+      color: #e0e0e0;
+      font-size: 13px;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      height: 100vh;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────────────────── */
+    .sidebar {
+      background: #10101c;
+      border-right: 1px solid #1a1a32;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid #1a1a32;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header-top {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-header h1 { font-size: 15px; font-weight: 800; color: #7b8cde; letter-spacing: 3px; }
+    .version-tag {
+      font-size: 10px; color: #333;
+      background: #1a1a2e; border: 1px solid #2a2a4a;
+      border-radius: 3px; padding: 1px 5px;
+    }
+
+    .search-box {
+      width: 100%; background: #16162a; border: 1px solid #242440;
+      border-radius: 6px; padding: 7px 10px; color: #e0e0e0;
+      font-size: 12px; outline: none; transition: border-color 0.15s;
+    }
+    .search-box:focus        { border-color: #7b8cde; }
+    .search-box::placeholder { color: #2a2a4a; }
+
+    .storage-stats {
+      margin-top: 10px; padding: 10px; background: #0a0a14;
+      border-radius: 6px; display: grid;
+      grid-template-columns: 1fr auto; gap: 4px 8px; font-size: 11px;
+    }
+    .stat-label { color: #333; }
+    .stat-value { color: #7b8cde; font-weight: 600; text-align: right; }
+
+    /* ── API key sections ──────────────────────────────────────────── */
+    .api-key-section {
+      margin-top: 10px; padding: 10px;
+      background: #0a0a14; border-radius: 6px; border: 1px solid #1a1a32;
+    }
+    .api-key-section h3 {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #7b8cde; margin-bottom: 5px;
+    }
+    .api-key-section p { font-size: 10px; color: #333; margin-bottom: 7px; line-height: 1.5; }
+    .api-key-status    { font-size: 10px; margin-bottom: 7px; min-height: 13px; color: #555; }
+    .api-key-row       { display: flex; gap: 5px; }
+    .api-key-row input {
+      flex: 1; background: #16162a; border: 1px solid #242440;
+      border-radius: 4px; padding: 5px 8px; color: #e0e0e0;
+      font-size: 11px; outline: none; min-width: 0;
+    }
+    .api-key-row input:focus       { border-color: #7b8cde; }
+    .api-key-row input::placeholder { color: #2a2a4a; }
+    .api-save-btn {
+      padding: 5px 9px; background: transparent; border: 1px solid #7b8cde;
+      border-radius: 4px; color: #7b8cde; font-size: 10px;
+      cursor: pointer; white-space: nowrap; transition: background 0.15s; flex-shrink: 0;
+    }
+    .api-save-btn:hover { background: rgba(123,140,222,0.1); }
+
+    .btn-clear-all {
+      margin-top: 9px; width: 100%; padding: 6px;
+      background: transparent; border: 1px solid #2a1010;
+      border-radius: 5px; color: #a03030; font-size: 10px; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-clear-all:hover { background: rgba(180,40,40,0.08); border-color: #f44336; color: #f44336; }
+
+    /* ── Stats / sort / url list ────────────────────────────────── */
+    .stats-bar {
+      padding: 6px 14px; border-bottom: 1px solid #1a1a32;
+      font-size: 10px; color: #333; flex-shrink: 0;
+    }
+    .stats-bar b { color: #7b8cde; font-weight: 600; }
+
+    .sort-bar {
+      padding: 5px 8px; border-bottom: 1px solid #1a1a32;
+      display: flex; gap: 2px; flex-shrink: 0;
+    }
+    .sort-btn {
+      padding: 3px 7px; background: transparent; border: 1px solid transparent;
+      border-radius: 4px; color: #333; font-size: 10px; cursor: pointer; transition: all 0.15s;
+    }
+    .sort-btn:hover  { color: #666; }
+    .sort-btn.active { border-color: #242440; color: #7b8cde; background: #16162a; }
+
+    .url-list {
+      overflow-y: auto; flex: 1;
+      scrollbar-width: thin; scrollbar-color: #242440 transparent;
+    }
+    .url-item {
+      padding: 9px 12px; border-bottom: 1px solid #0a0a14;
+      cursor: pointer; transition: background 0.1s; border-left: 3px solid transparent;
+    }
+    .url-item:hover  { background: #16162a; }
+    .url-item.active { background: #16162a; border-left-color: #7b8cde; }
+
+    .url-item-title  { font-size: 12px; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .url-item-domain { font-size: 10px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .url-item-meta   { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #333; }
+
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.3px; }
+    .badge-new      { background:rgba(100,100,100,0.15); color:#555; border:1px solid rgba(100,100,100,0.2); }
+    .badge-minor    { background:rgba(245,197,66,0.12);  color:#c9a820; border:1px solid rgba(245,197,66,0.25); }
+    .badge-moderate { background:rgba(255,152,0,0.12);   color:#cc7a00; border:1px solid rgba(255,152,0,0.25); }
+    .badge-major    { background:rgba(244,67,54,0.12);   color:#c0392b; border:1px solid rgba(244,67,54,0.25); }
+
+    /* ── Main panel ─────────────────────────────────────────────── */
+    .main { display: flex; flex-direction: column; overflow: hidden; background: #0a0a14; }
+
+    .main-header        { padding: 12px 18px; border-bottom: 1px solid #1a1a32; background: #10101c; flex-shrink: 0; }
+    .main-header-title  { font-size: 13px; font-weight: 600; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .main-header-url    { font-size: 10px; color: #2a2a4a; word-break: break-all; margin-bottom: 9px; }
+    .version-row        { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .version-row label  { font-size: 11px; color: #444; }
+
+    select { background: #16162a; border: 1px solid #242440; border-radius: 4px; color: #e0e0e0; padding: 4px 7px; font-size: 11px; outline: none; cursor: pointer; transition: border-color 0.15s; }
+    select:focus { border-color: #7b8cde; }
+
+    .btn { padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; border: 1px solid #242440; background: transparent; color: #555; transition: all 0.15s; font-family: inherit; }
+    .btn:hover         { background: #16162a; color: #ccc; }
+    .btn-primary       { border-color: #4a5aaa; color: #7b8cde; }
+    .btn-primary:hover { background: rgba(123,140,222,0.08); border-color: #7b8cde; }
+    .btn-danger        { border-color: #2a1010; color: #a03030; }
+    .btn-danger:hover  { border-color: #f44336; color: #f44336; background: rgba(244,67,54,0.06); }
+
+    .tab-bar { display: flex; border-bottom: 1px solid #1a1a32; flex-shrink: 0; background: #10101c; }
+    .tab { padding: 8px 16px; font-size: 11px; color: #333; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; user-select: none; }
+    .tab:hover  { color: #666; }
+    .tab.active { color: #7b8cde; border-bottom-color: #7b8cde; }
+
+    .content-area { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+    .diff-view    { flex: 1; overflow-y: auto; padding: 14px 18px; scrollbar-width: thin; scrollbar-color: #242440 transparent; }
+    .diff-block   { margin: 3px 0; padding: 7px 12px; border-radius: 4px; font-size: 12px; line-height: 1.8; word-break: break-word; }
+    .diff-added   { background: rgba(40,180,40,0.07); border-left: 3px solid #4caf50; color: #a5d6a7; }
+    .diff-removed { background: rgba(220,50,50,0.07); border-left: 3px solid #f44336; color: #ef9a9a; text-decoration: line-through; }
+    .diff-unchanged { color: #242440; font-size: 11px; padding: 2px 12px; }
+
+    .raw-view { flex: 1; overflow-y: auto; padding: 18px; font-family: 'Consolas','Monaco',monospace; font-size: 12px; line-height: 1.7; color: #444; white-space: pre-wrap; word-break: break-word; scrollbar-width: thin; scrollbar-color: #242440 transparent; }
+
+    .timeline-view { flex: 1; overflow-y: auto; padding: 14px 18px; scrollbar-width: thin; scrollbar-color: #242440 transparent; }
+    .timeline-entry { display: flex; gap: 12px; margin-bottom: 14px; position: relative; }
+    .timeline-entry::before { content: ''; position: absolute; left: 5px; top: 22px; bottom: -14px; width: 1px; background: #1a1a32; }
+    .timeline-entry:last-child::before { display: none; }
+    .timeline-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; border: 2px solid; }
+    .timeline-dot-new      { background: #16162a; border-color: #7b8cde; }
+    .timeline-dot-minor    { background: rgba(245,197,66,0.2); border-color: #f5c542; }
+    .timeline-dot-moderate { background: rgba(255,152,0,0.2); border-color: #ff9800; }
+    .timeline-dot-major    { background: rgba(244,67,54,0.2); border-color: #f44336; }
+    .timeline-content { flex: 1; background: #10101c; border: 1px solid #1a1a32; border-radius: 6px; padding: 8px 11px; }
+    .timeline-content:hover { border-color: #242440; }
+    .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .timeline-date { font-size: 11px; color: #555; }
+    .timeline-body { font-size: 11px; color: #333; line-height: 1.6; }
+
+    /* ── Forms view ─────────────────────────────────────────────── */
+    .forms-view { flex: 1; overflow-y: auto; padding: 14px 18px; scrollbar-width: thin; scrollbar-color: #242440 transparent; }
+    .form-entry { background: #10101c; border: 1px solid #1a1a32; border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+    .form-entry:hover { border-color: #242440; }
+    .form-entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .form-entry-url    { font-size: 11px; color: #7b8cde; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; margin-right: 8px; }
+    .form-entry-time   { font-size: 10px; color: #333; flex-shrink: 0; }
+    .form-entry-meta   { font-size: 11px; color: #444; line-height: 1.6; }
+    .form-hidden-tag   { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 700; background: rgba(244,67,54,0.12); color: #f44336; border: 1px solid rgba(244,67,54,0.25); margin-right: 4px; }
+    .form-field-tag    { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; background: rgba(123,140,222,0.12); color: #7b8cde; border: 1px solid rgba(123,140,222,0.2); margin-right: 3px; margin-bottom: 3px; }
+
+    .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #242440; gap: 8px; text-align: center; padding: 40px; }
+    .empty-state p     { font-size: 14px; color: #2a2a4a; }
+    .empty-state small { font-size: 11px; color: #1a1a2e; max-width: 300px; line-height: 1.6; }
+
+    .loading { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #2a2a4a; }
+
+    ::-webkit-scrollbar       { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #242440; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────── -->
+  <div class="sidebar">
+
+    <div class="sidebar-header">
+      <div class="sidebar-header-top">
+        <h1>VIGIL</h1>
+        <span class="version-tag">v1.5</span>
+      </div>
+
+      <input class="search-box" id="search-input" placeholder="Search pages or URLs…" autocomplete="off" />
+
+      <div class="storage-stats" id="storage-stats">
+        <span class="stat-label">Loading…</span>
+      </div>
+
+      <!-- Anthropic AI key -->
+      <div class="api-key-section">
+        <h3>AI Diff Labels</h3>
+        <p>Anthropic API key for plain-English change summaries.</p>
+        <div class="api-key-status" id="api-key-status">— No API key set</div>
+        <div class="api-key-row">
+          <input type="password" id="api-key-input" placeholder="sk-ant-…" autocomplete="off" />
+          <button class="api-save-btn" id="btn-save-key">Save</button>
+        </div>
+      </div>
+
+      <!-- Google Safe Browsing key -->
+      <div class="api-key-section" style="margin-top:8px;">
+        <h3>Link Scorer — Safe Browsing</h3>
+        <p>Google Safe Browsing API key for cloud link checks (optional).</p>
+        <div class="api-key-status" id="gsb-key-status">— No key set (local scoring only)</div>
+        <div class="api-key-row">
+          <input type="password" id="gsb-key-input" placeholder="AIza…" autocomplete="off" />
+          <button class="api-save-btn" id="btn-save-gsb">Save</button>
+        </div>
+      </div>
+
+      <button class="btn-clear-all" id="btn-clear-all">Clear all Vigil data</button>
+    </div>
+
+    <div class="stats-bar" id="stats-bar">Loading…</div>
+
+    <div class="sort-bar">
+      <button class="sort-btn active" data-sort="recent">Recent</button>
+      <button class="sort-btn" data-sort="most">Most</button>
+      <button class="sort-btn" data-sort="changed">Changed</button>
+      <button class="sort-btn" data-sort="az">A–Z</button>
+    </div>
+
+    <div class="url-list" id="url-list">
+      <div class="loading">Loading snapshots…</div>
+    </div>
+
+  </div>
+
+  <!-- ── Main panel ──────────────────────────────────────────────────── -->
+  <div class="main" id="main-panel">
+    <div class="empty-state">
+      <p>Select a page from the sidebar</p>
+      <small>Vigil automatically saves a snapshot every time a page's content changes. Browse some pages to get started.</small>
+    </div>
+  </div>
+
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
